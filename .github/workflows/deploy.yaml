@@ -51,6 +51,9 @@ jobs:
       # - name: Assign domain name
       #   run: echo "bbc-feeds.danq.dev" > build/CNAME
 
+      - name: Assign domain name
+        run: echo "bbc-feeds.danq.dev" > build/CNAME
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
