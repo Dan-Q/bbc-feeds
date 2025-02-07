@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0,20,40 * * * *"
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.5'
+
+      - name: Ruby gem cache
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      - name: Install Gems
+        run: |
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Pull feeds
+        run: ruby ./pull-feeds.rb
+
+      # - name: Assign domain name
+      #   run: echo "bbc-feeds.danq.dev" > build/CNAME
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
