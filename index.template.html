@@ -3,15 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BBC News RSS Feeds (That Don't Suck!)</title>
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.blue.css">
+  <title>BBC News RSS Feeds (that don't suck!)</title>
+  <style type="text/css">
+    header {
+      background: #2f2f92;
+    }
+    h1 {
+      color: #fff;
+    }
+    footer {
+      border-top: 1px solid #ccc;
+      font-size: 80%;
+    }
+    footer {
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+      }
+      ul, ul li {
+        list-style: none;
+        margin: 0;
+      }
+      ul li {
+        padding: 0 0.5em;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>BBC News RSS Feeds (That Don't Suck!)</h1>
-  <p>
-    ...
-  </p>
-  <ul>
-    {{FEEDS}}
-  </ul>
+  <header>
+    <h1 class="container">BBC News RSS Feeds (that don't suck!)</h1>
+  </header>
+  <main class="container">
+    <h2>The Feeds</h2>
+    <p>
+      Choose the feed you want and subscribe using your RSS reader:
+    </p>
+    <ul>
+      {{FEEDS}}
+      <li><a class="secondary" href="https://aboutfeeds.com/">What are feeds?</a></li>
+    </ul>
+    <h2>What is this?</h2>
+    <p>
+      <a class="secondary" href="https://www.bbc.co.uk/news">BBC News</a> provides a variety of RSS feeds for subscribing to news content.
+      But they're not great, so I've been working on improving them:
+    </p>
+    <ol>
+      <li>
+        In 2019, sick of seeing sports news (that I didn't care about),
+        <a class="secondary" href="https://danq.me/2019/05/14/bbc-news-without-the-sport/">I started filtering out sports</a>.
+      </li>
+      <li>
+        In 2024, the feed started being polluted by non-news content (links to iPlayer and BBC Sounds content, and plugs
+        for the app). So
+        <a class="secondary" href="https://danq.me/2024/03/09/bbc-news-without-the-crap/">I came up with a filter for them too</a>.
+      </li>
+      <li>
+        In 2025, a commenter asked if I could make an alternate version of the feed that <em>didn't</em> exclude the
+        sports news, <a class="secondary" href="https://danq.me/2025/02/03/bbc-news-rss-improved/">so I arranged for that too</a>.
+      </li>
+      <li>
+        Finally, when somebody asked on Mastodon whether I could start filtering not only the UK edition but also the
+        World edition of BBC News... I realised it was time to turn this into a proper project.
+      </li>
+    </ol>
+  </main>
+  <footer>
+    <ul class="container">
+      <li>a <a class="contrast" href="https://things.danq.me/">Dan Q Thing</a></li>
+      <li>by <a class="contrast" href="https://danq.me/">Dan Q</a></li>
+      <li>not affiliated with BBC News</li>
+      <li><a class="contrast" href="https://github.com/Dan-Q/bbc-feeds">open source</a> software</li>
+    </ul>
+  </header>
 </body>
 </html>
