@@ -11,7 +11,7 @@ require 'fileutils'
 DOMAIN = 'bbc-feeds.danq.dev'
 
 # Editions of BBC News that we improve:
-EDITIONS = %w[uk world].freeze
+EDITIONS = %w[uk world business politics].freeze
 
 # Kinds of improvements:
 VERSIONS = {
