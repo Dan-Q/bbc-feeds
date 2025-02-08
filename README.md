@@ -11,7 +11,7 @@ BBC News provides a variety of RSS feeds for subscribing to news content. But th
 1. In 2019, sick of seeing sports news (that I didn't care about), I started [filtering out sports](https://danq.me/2019/05/14/bbc-news-without-the-sport/).
 2. In 2024, the feed started being polluted by non-news content (links to iPlayer and BBC Sounds content, and plugs for the app). So [I came up with a filter for them too](https://danq.me/2019/05/14/bbc-news-without-the-sport/).
 3. In 2025, a commenter asked if I could make an alternate version of the feed that didn't exclude the sports news, [so I arranged for that too](https://danq.me/2025/02/03/bbc-news-rss-improved/).
-4. Finally, when somebody asked on Mastodon whether I could start filtering not only the UK edition but also the World edition of BBC News... I realised it was time to turn this into a proper project.
+4. Finally, when somebody asked on Mastodon whether I could start filtering not only the UK edition but also the World edition of BBC News... [I realised it was time to turn this into a proper project](https://danq.me/2025/02/08/bbc-news-rss-your-way/).
 
 ## How does it work?
 
