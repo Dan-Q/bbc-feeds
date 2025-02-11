@@ -11,7 +11,13 @@ require 'fileutils'
 DOMAIN = 'bbc-feeds.danq.dev'
 
 # Editions of BBC News that we improve:
-EDITIONS = %w[uk world business politics].freeze
+EDITIONS = {
+  'full'     => 'https://feeds.bbci.co.uk/news/rss.xml',
+  'uk'       => 'https://feeds.bbci.co.uk/news/uk/rss.xml',
+  'world'    => 'https://feeds.bbci.co.uk/news/world/rss.xml',
+  'business' => 'https://feeds.bbci.co.uk/news/business/rss.xml',
+  'politics' => 'https://feeds.bbci.co.uk/news/politics/rss.xml'
+}.freeze
 
 # Kinds of improvements:
 VERSIONS = {
@@ -33,8 +39,7 @@ FileUtils.mkdir_p('build')
 html = ''
 
 # For each edition/version permutation, fetch, filter, and output the feed:
-EDITIONS.each do |edition|
-  url = "https://feeds.bbci.co.uk/news/#{edition}/rss.xml"
+EDITIONS.each do |edition, url|
   content = Net::HTTP.get(URI.parse(url))
   feed = Nokogiri::XML(content)
 
