@@ -16,7 +16,9 @@ EDITIONS = {
   'uk'       => 'https://feeds.bbci.co.uk/news/uk/rss.xml',
   'world'    => 'https://feeds.bbci.co.uk/news/world/rss.xml',
   'business' => 'https://feeds.bbci.co.uk/news/business/rss.xml',
-  'politics' => 'https://feeds.bbci.co.uk/news/politics/rss.xml'
+  'politics' => 'https://feeds.bbci.co.uk/news/politics/rss.xml',
+  'africa'   => 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
+  'india'    => 'https://feeds.bbci.co.uk/news/world/asia/india/rss.xml'
 }.freeze
 
 # Kinds of improvements:
