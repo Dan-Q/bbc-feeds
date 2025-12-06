@@ -43,7 +43,8 @@ EDITIONS = {
   },
   'india'    => {
     url: 'https://feeds.bbci.co.uk/news/world/asia/india/rss.xml',
-    variants: %w{ sports no-sports }
+    variants: %w{ sports no-sports },
+    icon: '🇮🇳'
   },
   'scotland' => {
     url: 'https://feeds.bbci.co.uk/news/scotland/rss.xml',
