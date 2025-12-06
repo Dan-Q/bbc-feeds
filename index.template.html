@@ -13,6 +13,18 @@
     h1 {
       color: #fff;
     }
+    main {
+      ul {
+        @media (min-width: 800px) {
+          columns: 2;
+        }
+      }
+
+      svg {
+        height: 1em;
+        margin-right: 0.5ch;
+      }
+    }
     footer {
       border-top: 1px solid #ccc;
       font-size: 80%;
@@ -44,7 +56,9 @@
     </p>
     <ul>
       {{FEEDS}}
+    </ul><ul>
       <li><a class="secondary" href="https://aboutfeeds.com/">What are feeds?</a></li>
+      <li><a class="secondary" href="https://danq.me/contact/">Favourite edition missing? Get in touch!</a></li>
     </ul>
     <h2>What is this?</h2>
     <p>
@@ -66,9 +80,14 @@
         sports news, <a class="secondary" href="https://danq.me/2025/02/03/bbc-news-rss-improved/">so I arranged for that too</a>.
       </li>
       <li>
-        Finally, when somebody asked on Mastodon whether I could start filtering not only the UK edition but also the
+        Then, when somebody asked on Mastodon whether I could start filtering not only the UK edition but also the
         World edition of BBC News...
         <a class="secondary" href="https://danq.me/2025/02/08/bbc-news-rss-your-way/">I realised it was time to turn this into a proper project</a>.
+      </li>
+      <li>
+        Later still,
+        <a class="secondary" href="https://danq.me/2025/02/08/bbc-news-rss-your-way/#comment-293717">somebody asked for feeds of <em>just</em> sports news</a>
+        (it takes all sorts!), so I added some of those too (along with details of how to ask for missing editions!).
       </li>
     </ol>
   </main>

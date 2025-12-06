@@ -12,44 +12,100 @@ DOMAIN = 'bbc-feeds.danq.dev'
 
 # Editions of BBC News that we improve:
 EDITIONS = {
-  'full'     => 'https://feeds.bbci.co.uk/news/rss.xml',
-  'uk'       => 'https://feeds.bbci.co.uk/news/uk/rss.xml',
-  'world'    => 'https://feeds.bbci.co.uk/news/world/rss.xml',
-  'business' => 'https://feeds.bbci.co.uk/news/business/rss.xml',
-  'politics' => 'https://feeds.bbci.co.uk/news/politics/rss.xml',
-  'africa'   => 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
-  'india'    => 'https://feeds.bbci.co.uk/news/world/asia/india/rss.xml'
+  'full'     => {
+    url: 'https://feeds.bbci.co.uk/news/rss.xml',
+    variants: %w{ sports no-sports }
+  },
+  'uk'       => {
+    url: 'https://feeds.bbci.co.uk/news/uk/rss.xml',
+    variants: %w{ sports no-sports },
+    title: 'UK',
+    icon: '🇬🇧'
+  },
+  'world'    => {
+    url: 'https://feeds.bbci.co.uk/news/world/rss.xml',
+    variants: %w{ sports no-sports },
+    icon: '🌍'
+  },
+  'business' => {
+    url: 'https://feeds.bbci.co.uk/news/business/rss.xml',
+    variants: %w{ sports no-sports },
+    icon: '💼'
+  },
+  'politics' => {
+    url: 'https://feeds.bbci.co.uk/news/politics/rss.xml',
+    variants: %w{ sports no-sports },
+    icon: '🗳️'
+  },
+  'africa'   => {
+    url: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
+    variants: %w{ sports no-sports }
+  },
+  'india'    => {
+    url: 'https://feeds.bbci.co.uk/news/world/asia/india/rss.xml',
+    variants: %w{ sports no-sports }
+  },
+  'scotland' => {
+    url: 'https://feeds.bbci.co.uk/news/scotland/rss.xml',
+    variants: %w{ sports no-sports },
+    icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
+  },
+  'break-1' => false,
+  'sport' => {
+    url: 'https://feeds.bbci.co.uk/sport/rss.xml',
+    variants: %w{ sports },
+    title: 'Sports',
+    icon: '🏏'
+  },
+  'sport-scotland' => {
+    url: 'https://feeds.bbci.co.uk/sport/rss.xml',
+    variants: %w{ sports },
+    title: 'Sports Scotland',
+    icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
+  }
 }.freeze
 
 # Kinds of improvements:
-VERSIONS = {
+VARIANT_DEFINITIONS = {
   'sports': {
     reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(iplayer|sounds|ideas|news/videos|programmes)/},
-    reject_titles: /^(BBC News app)$/
+    reject_titles: /^(BBC News app)$/,
+    description: '(⚽ includes sports)'
   },
 
   'no-sports': {
     reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(sport|iplayer|sounds|ideas|news/videos|programmes)/},
-    reject_titles: /^(BBC News app)$/
-  }
+    reject_titles: /^(BBC News app)$/,
+    description: '(❌ no sports)'
+  },
 }.freeze
 
 # Create an output directory:
 FileUtils.mkdir_p('build')
 
+# An RSS icon to insert
+RSS_ICON = '<svg aria-label="RSS feed " viewBox="0 0 512 512"><rect width="512" height="512" fill="#f80" rx="15%"/><circle cx="145" cy="367" r="35" fill="#fff"/><path fill="none" stroke="#fff" stroke-width="60" d="M109 241c89 0 162 73 162 162m114 0c0-152-124-276-276-276"/></svg>'
+
 # Make a list of HTML links as we go:
 html = ''
 
 # For each edition/version permutation, fetch, filter, and output the feed:
-EDITIONS.each do |edition, url|
-  content = Net::HTTP.get(URI.parse(url))
+EDITIONS.each do |edition, definition|
+  if ! definition
+    # editions with no definition are breaks in the list
+    html += '</ul><ul>'
+    next
+  end
+
+  content = Net::HTTP.get(URI.parse(definition[:url]))
   feed = Nokogiri::XML(content)
 
-  VERSIONS.each do |version, filters|
+  definition[:variants].each do |variant|
+    raise "Unknown variant #{variant} for edition #{edition}" unless filters = VARIANT_DEFINITIONS[variant.to_sym]
     rss = feed.dup
-    output = "#{edition}-#{version}.xml"
+    output = "#{edition}-#{variant}.xml"
 
-    # Comment-out items that match our rejection criteria for this version:
+    # Comment-out items that match our rejection criteria for this variant:
     rss.css('item').select { |item| item.css('guid').text =~ filters[:reject_guids] || item.css('title').text =~ filters[:reject_titles] }.each do |item|
       item.swap("<!-- [REJECTED] #{item.to_s.gsub(/--/, '[hyphen][hyphen]')} -->")
     end
@@ -75,7 +131,14 @@ EDITIONS.each do |edition, url|
     File.open("build/#{output}", 'w') { |f| f.puts(rss.to_s) }
 
     # Add a link to the HTML
-    html += "<li><a href=\"#{output}\">[RSS] #{edition}, #{version} edition</a></li>"
+    html += <<~HTML.chomp
+      <li>
+        <a href="#{output}">
+          #{RSS_ICON}#{definition[:icon] ? "#{definition[:icon]} " : ''}#{definition[:title] || edition.capitalize}
+          #{definition[:variants].length > 1 ? filters[:description] : ''}
+        </a>
+      </li>
+    HTML
   end
 end
 
