@@ -61,7 +61,7 @@ EDITIONS = {
     variants: %w{ sports },
     icon: '🇷🇺'
   },
-  'break-1' => false,
+  'break-2' => false,
   'sport' => {
     url: 'https://feeds.bbci.co.uk/sport/rss.xml',
     variants: %w{ sports },
