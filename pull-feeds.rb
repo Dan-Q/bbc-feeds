@@ -56,6 +56,12 @@ EDITIONS = {
     variants: %w{ sports no-sports }
   },
   'break-1' => false,
+  'russian' => {
+    url: 'https://feeds.bbci.co.uk/russian/rss.xml',
+    variants: %w{ sports },
+    icon: '🇷🇺'
+  },
+  'break-1' => false,
   'sport' => {
     url: 'https://feeds.bbci.co.uk/sport/rss.xml',
     variants: %w{ sports },
