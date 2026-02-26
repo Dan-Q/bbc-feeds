@@ -51,11 +51,21 @@ EDITIONS = {
     variants: %w{ sports no-sports },
     icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
   },
+  'wales' => {
+    url: 'https://feeds.bbci.co.uk/news/wales/rss.xml',
+    variants: %w{ sports no-sports },
+    icon: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
+  },
   'technology' => {
     url: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
     variants: %w{ sports no-sports }
   },
   'break-1' => false,
+  'welsh' => {
+    url: 'https://feeds.bbci.co.uk/cymrufyw/rss.xml',
+    variants: %w{ sports },
+    icon: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
+  },
   'russian' => {
     url: 'https://feeds.bbci.co.uk/russian/rss.xml',
     variants: %w{ sports },
