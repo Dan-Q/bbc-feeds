@@ -46,6 +46,10 @@ EDITIONS = {
     variants: %w{ sports no-sports },
     icon: '🇮🇳'
   },
+  'us_and_canada'   => {
+    url: 'https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml',
+    variants: %w{ sports no-sports }
+  },
   'scotland' => {
     url: 'https://feeds.bbci.co.uk/news/scotland/rss.xml',
     variants: %w{ sports no-sports },
