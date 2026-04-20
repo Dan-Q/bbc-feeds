@@ -111,6 +111,10 @@ FileUtils.mkdir_p('build')
 # An RSS icon to insert
 RSS_ICON = '<svg aria-label="RSS feed " viewBox="0 0 512 512"><rect width="512" height="512" fill="#f80" rx="15%"/><circle cx="145" cy="367" r="35" fill="#fff"/><path fill="none" stroke="#fff" stroke-width="60" d="M109 241c89 0 162 73 162 162m114 0c0-152-124-276-276-276"/></svg>'
 
+# Initial and preferred thumbnail resolution width
+THUMB_INITIAL_WIDTH = 240
+THUMB_TARGET_WIDTH = 1200
+
 # Make a list of HTML links as we go:
 html = ''
 
@@ -143,6 +147,14 @@ EDITIONS.each do |edition, definition|
       matching_items = rss.css('item').select { |item| item.css('guid').text == guid }
       duplicate_items = matching_items[1..]
       duplicate_items.each { |item| item.swap("<!-- [DUPLICATE] #{item.to_s.gsub(/--/, '[hyphen][hyphen]')} -->") }
+    end
+
+    # Enlarge the thumbnails of each item from 240x to 1200x
+    rss.xpath('//media:thumbnail').each do |thumb|
+      next unless thumb['url'] =~ /^https:\/\/ichef.bbci.co.uk\/ace\/(standard|ws)\/#{THUMB_INITIAL_WIDTH}\//
+      thumb['url'] = thumb['url'].gsub(/\/ace\/(standard|ws)\/#{THUMB_INITIAL_WIDTH}\//, "/ace/\\1/#{THUMB_TARGET_WIDTH}/")
+      thumb['width'] = THUMB_TARGET_WIDTH.to_s
+      thumb['height'] = (thumb['height'].to_f / THUMB_INITIAL_WIDTH * THUMB_TARGET_WIDTH).round.to_s
     end
 
     # Tag us as the generator
