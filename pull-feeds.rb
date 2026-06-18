@@ -70,6 +70,11 @@ EDITIONS = {
     variants: %w{ sports },
     icon: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
   },
+  'spanish' => {
+    url: 'https://feeds.bbci.co.uk/mundo/rss.xml',
+    variants: %w{ sports },
+    icon: '🇪🇸'
+  },
   'russian' => {
     url: 'https://feeds.bbci.co.uk/russian/rss.xml',
     variants: %w{ sports },
