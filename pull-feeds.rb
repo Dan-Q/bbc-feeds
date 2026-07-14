@@ -92,6 +92,12 @@ EDITIONS = {
     variants: %w{ sports },
     title: 'Sports Scotland',
     icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
+  },
+  'football' => {
+    url: 'https://feeds.bbci.co.uk/sport/football/rss.xml',
+    variants: %w{ sports },
+    title: 'Football',
+    icon: '⚽️'
   }
 }.freeze
 
