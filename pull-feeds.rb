@@ -104,14 +104,14 @@ EDITIONS = {
 # Kinds of improvements:
 VARIANT_DEFINITIONS = {
   'sports': {
-    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(iplayer|sounds|ideas|news/videos|programmes)/},
-    reject_titles: /^(BBC News app)$/,
+    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/},
+    reject_titles: /^(BBC News app|Sign up now)$/,
     description: '(⚽ includes sports)'
   },
 
   'no-sports': {
-    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(sport|iplayer|sounds|ideas|news/videos|programmes)/},
-    reject_titles: /^(BBC News app)$/,
+    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(sport|iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/},
+    reject_titles: /^(BBC News app|Sign up now)$/,
     description: '(❌ no sports)'
   },
 }.freeze
