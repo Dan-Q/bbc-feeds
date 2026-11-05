@@ -1,0 +1,12 @@
+# Specific filters applied to editions -
+#
+# Sports mode filters out ads and non-news content:
+sports:
+  reject_guids: "^https://www\\.bbc\\.(co\\.uk|com)/(iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/"
+  reject_titles: "^(BBC News app|Sign up now)$"
+  description: "(⚽ includes sports)"
+# No-sports mode ALSO filters out sports news:
+no-sports:
+  reject_guids: "^https://www\\.bbc\\.(co\\.uk|com)/(sport|iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/"
+  reject_titles: "^(BBC News app|Sign up now)$"
+  description: "(❌ no sports)"

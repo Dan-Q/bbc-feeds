@@ -1,4 +1,4 @@
-#!/bin/env ruby
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 # Dependencies:
@@ -7,115 +7,25 @@ require 'nokogiri'
 require 'net/http'
 require 'uri'
 require 'fileutils'
+require 'yaml'
 
 # Where are we hosting this?
 DOMAIN = 'bbc-feeds.danq.dev'
 
-# Editions of BBC News that we improve:
-EDITIONS = {
-  'full'     => {
-    url: 'https://feeds.bbci.co.uk/news/rss.xml',
-    variants: %w{ sports no-sports }
-  },
-  'uk'       => {
-    url: 'https://feeds.bbci.co.uk/news/uk/rss.xml',
-    variants: %w{ sports no-sports },
-    title: 'UK',
-    icon: '🇬🇧'
-  },
-  'world'    => {
-    url: 'https://feeds.bbci.co.uk/news/world/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '🌍'
-  },
-  'business' => {
-    url: 'https://feeds.bbci.co.uk/news/business/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '💼'
-  },
-  'politics' => {
-    url: 'https://feeds.bbci.co.uk/news/politics/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '🗳️'
-  },
-  'africa'   => {
-    url: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
-    variants: %w{ sports no-sports }
-  },
-  'india'    => {
-    url: 'https://feeds.bbci.co.uk/news/world/asia/india/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '🇮🇳'
-  },
-  'us_and_canada'   => {
-    url: 'https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml',
-    variants: %w{ sports no-sports }
-  },
-  'scotland' => {
-    url: 'https://feeds.bbci.co.uk/news/scotland/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
-  },
-  'wales' => {
-    url: 'https://feeds.bbci.co.uk/news/wales/rss.xml',
-    variants: %w{ sports no-sports },
-    icon: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
-  },
-  'technology' => {
-    url: 'https://feeds.bbci.co.uk/news/technology/rss.xml',
-    variants: %w{ sports no-sports }
-  },
-  'break-1' => false,
-  'welsh' => {
-    url: 'https://feeds.bbci.co.uk/cymrufyw/rss.xml',
-    variants: %w{ sports },
-    icon: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
-  },
-  'spanish' => {
-    url: 'https://feeds.bbci.co.uk/mundo/rss.xml',
-    variants: %w{ sports },
-    icon: '🇪🇸'
-  },
-  'russian' => {
-    url: 'https://feeds.bbci.co.uk/russian/rss.xml',
-    variants: %w{ sports },
-    icon: '🇷🇺'
-  },
-  'break-2' => false,
-  'sport' => {
-    url: 'https://feeds.bbci.co.uk/sport/rss.xml',
-    variants: %w{ sports },
-    title: 'Sports',
-    icon: '🏏'
-  },
-  'sport-scotland' => {
-    url: 'https://feeds.bbci.co.uk/sport/scotland/rss.xml',
-    variants: %w{ sports },
-    title: 'Sports Scotland',
-    icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
-  },
-  'football' => {
-    url: 'https://feeds.bbci.co.uk/sport/football/rss.xml',
-    variants: %w{ sports },
-    title: 'Football',
-    icon: '⚽️'
-  }
-}.freeze
+# Editions of BBC News that we improve (see config/editions.yml). Editions with a
+# value of `false` are breaks in the list of feeds:
+EDITIONS = YAML.safe_load_file(File.join(__dir__, 'config', 'editions.yml')).transform_values do |definition|
+  definition && definition.transform_keys(&:to_sym)
+end.freeze
 
-# Kinds of improvements:
-VARIANT_DEFINITIONS = {
-  'sports': {
-    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/},
-    reject_titles: /^(BBC News app|Sign up now)$/,
-    description: '(⚽ includes sports)'
-  },
-
-  'no-sports': {
-    reject_guids: %r{^https://www\.bbc\.(co\.uk|com)/(sport|iplayer|sounds|ideas|news/videos|programmes|news/articles/c2lkky9zngvo)/},
-    reject_titles: /^(BBC News app|Sign up now)$/,
-    description: '(❌ no sports)'
-  },
-}.freeze
+# Kinds of improvements (see config/variant-definitions.yml):
+VARIANT_DEFINITIONS = YAML.safe_load_file(File.join(__dir__, 'config', 'variant-definitions.yml')).to_h do |variant, definition|
+  definition = definition.transform_keys(&:to_sym)
+  [variant.to_sym, definition.merge(
+    reject_guids: Regexp.new(definition[:reject_guids]),
+    reject_titles: Regexp.new(definition[:reject_titles])
+  )]
+end.freeze
 
 # Create an output directory:
 FileUtils.mkdir_p('build')

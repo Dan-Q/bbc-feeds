@@ -1,0 +1,117 @@
+# Editions of BBC News that we improve.
+# Each has:
+# -      url: URL of the RSS feed
+# - variants: defined in variant-definitions.yml, these specify what gets filtered out;
+#             no-sports filtering doesn't work well in non-English languages nor make sense
+#             for sports "editions"
+#      title: optional title; if not specified the key is used
+# -     icon: optional emoji to represent the output feed(s)
+#
+# An edition set to `false` is a visual break in the list of feeds on the index page.
+#
+
+# Main, category, and regional editions:
+full:
+  url: https://feeds.bbci.co.uk/news/rss.xml
+  variants:
+  - sports
+  - no-sports
+uk:
+  url: https://feeds.bbci.co.uk/news/uk/rss.xml
+  variants:
+  - sports
+  - no-sports
+  title: UK
+  icon: "🇬🇧"
+world:
+  url: https://feeds.bbci.co.uk/news/world/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "🌍"
+business:
+  url: https://feeds.bbci.co.uk/news/business/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "💼"
+politics:
+  url: https://feeds.bbci.co.uk/news/politics/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "🗳️"
+africa:
+  url: https://feeds.bbci.co.uk/news/world/africa/rss.xml
+  variants:
+  - sports
+  - no-sports
+india:
+  url: https://feeds.bbci.co.uk/news/world/asia/india/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "🇮🇳"
+us_and_canada:
+  url: https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml
+  variants:
+  - sports
+  - no-sports
+scotland:
+  url: https://feeds.bbci.co.uk/news/scotland/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+wales:
+  url: https://feeds.bbci.co.uk/news/wales/rss.xml
+  variants:
+  - sports
+  - no-sports
+  icon: "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+technology:
+  url: https://feeds.bbci.co.uk/news/technology/rss.xml
+  variants:
+  - sports
+  - no-sports
+
+break-1: false
+
+# Language editions:
+welsh:
+  url: https://feeds.bbci.co.uk/cymrufyw/rss.xml
+  variants:
+  - sports
+  icon: "🏴󠁧󠁢󠁷󠁬󠁳󠁿"
+spanish:
+  url: https://feeds.bbci.co.uk/mundo/rss.xml
+  variants:
+  - sports
+  icon: "🇪🇸"
+russian:
+  url: https://feeds.bbci.co.uk/russian/rss.xml
+  variants:
+  - sports
+  icon: "🇷🇺"
+
+break-2: false
+
+# Sports editions:
+sport:
+  url: https://feeds.bbci.co.uk/sport/rss.xml
+  variants:
+  - sports
+  title: Sports
+  icon: "🏏"
+sport-scotland:
+  url: https://feeds.bbci.co.uk/sport/scotland/rss.xml
+  variants:
+  - sports
+  title: Sports Scotland
+  icon: "🏴󠁧󠁢󠁳󠁣󠁴󠁿"
+football:
+  url: https://feeds.bbci.co.uk/sport/football/rss.xml
+  variants:
+  - sports
+  title: Football
+  icon: "⚽️"
