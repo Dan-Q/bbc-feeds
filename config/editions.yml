@@ -57,6 +57,7 @@ us_and_canada:
   variants:
   - sports
   - no-sports
+  title: 'US & Canada'
 scotland:
   url: https://feeds.bbci.co.uk/news/scotland/rss.xml
   variants:

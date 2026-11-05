@@ -9,6 +9,16 @@ require 'uri'
 require 'fileutils'
 require 'yaml'
 
+# Monkey-patch String with a edition_titleify (capitalise first letter, turn underscores into spaces) method:
+class String
+  def edition_titleify
+    (self[0].upcase + self[1..]).gsub(/_/, ' ')
+  end
+end
+
+# Verbose-by-default
+VERBOSE = true
+
 # Where are we hosting this?
 DOMAIN = 'bbc-feeds.danq.dev'
 
@@ -40,13 +50,18 @@ THUMB_TARGET_WIDTH = 1200
 # Make a list of HTML links as we go:
 html = ''
 
+puts "Decrappifying BBC News..." if VERBOSE
+
 # For each edition/version permutation, fetch, filter, and output the feed:
 EDITIONS.each do |edition, definition|
   if ! definition
     # editions with no definition are breaks in the list
+    puts '----' if VERBOSE
     html += '</ul><ul>'
     next
   end
+
+  puts("📰 #{definition[:title] || edition.edition_titleify} edition (#{definition[:url]})") if VERBOSE
 
   content = Net::HTTP.get(URI.parse(definition[:url]))
   feed = Nokogiri::XML(content)
@@ -55,6 +70,7 @@ EDITIONS.each do |edition, definition|
     raise "Unknown variant #{variant} for edition #{edition}" unless filters = VARIANT_DEFINITIONS[variant.to_sym]
     rss = feed.dup
     output = "#{edition}-#{variant}.xml"
+    puts "  💾 build/#{output}" if VERBOSE
 
     # Comment-out items that match our rejection criteria for this variant:
     rss.css('item').select { |item| item.css('guid').text =~ filters[:reject_guids] || item.css('title').text =~ filters[:reject_titles] }.each do |item|
@@ -93,7 +109,7 @@ EDITIONS.each do |edition, definition|
     html += <<~HTML.chomp
       <li>
         <a href="#{output}">
-          #{RSS_ICON}#{definition[:icon] ? "#{definition[:icon]} " : ''}#{definition[:title] || edition.capitalize}
+          #{RSS_ICON}#{definition[:icon] ? "#{definition[:icon]} " : ''}#{definition[:title] || edition.edition_titleify}
           #{definition[:variants].length > 1 ? filters[:description] : ''}
         </a>
       </li>
@@ -102,12 +118,14 @@ EDITIONS.each do |edition, definition|
 end
 
 # Tell GitHub Pages which domain name we're hosted on:
+puts "💾 build/CNAME" if VERBOSE
 File.write('build/CNAME', "#{DOMAIN}\n")
 
 # Load the template HTML file:
 template = File.read('index.template.html')
 
 # Create a HTML file describing the feeds:
+puts "💾 build/index.html" if VERBOSE
 File.open('build/index.html', 'w') do |f|
   f.puts template.gsub('{{FEEDS}}', html)
 end
