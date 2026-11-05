@@ -101,6 +101,9 @@ EDITIONS.each do |edition, definition|
   end
 end
 
+# Tell GitHub Pages which domain name we're hosted on:
+File.write('build/CNAME', "#{DOMAIN}\n")
+
 # Load the template HTML file:
 template = File.read('index.template.html')
 
