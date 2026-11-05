@@ -30,7 +30,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.3.5'
+          ruby-version: '4.0.7'
 
       - name: Ruby gem cache
         uses: actions/cache@v6
@@ -47,9 +47,6 @@ jobs:
 
       - name: Pull feeds
         run: ruby ./pull-feeds.rb
-
-      # - name: Assign domain name
-      #   run: echo "bbc-feeds.danq.dev" > build/CNAME
 
       - name: Assign domain name
         run: echo "bbc-feeds.danq.dev" > build/CNAME

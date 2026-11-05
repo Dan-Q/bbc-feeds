@@ -18,7 +18,7 @@ BBC News provides a variety of RSS feeds for subscribing to news content. But th
 If you want to run it for yourself:
 
 1. Check out this codebase.
-2. Using Ruby 3.3.4 or later, run `bundle install` to install dependencies.
+2. Using Ruby 4.0.7 or later, run `bundle install` to install dependencies.
 3. Run `ruby ./pull-feeds.rb`.
 4. The resulting feeds can be found in `build/`.
 
